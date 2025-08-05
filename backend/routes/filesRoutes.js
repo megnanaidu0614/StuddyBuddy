@@ -6,16 +6,20 @@ const {
   getFiles,
   createFile,
   updateFile,
-  deleteFile      
+  deleteFile,
+  serveFile,
+  upload,
+  uploadMiddleware
 } = require('../controllers/filesController');
 
 router.use(protect);
 
 // Define the routes
 router.get('/:classId/files', getFiles);
-router.post('/:classId/files', createFile);
+router.post('/:classId/files', uploadMiddleware, createFile);
 router.put('/:classId/files/:fileId', updateFile);
-router.delete('/:classId/files/:fileId', deleteFile); 
+router.delete('/:classId/files/:fileId', deleteFile);
+router.get('/:classId/files/:fileId/download', serveFile); 
 
 // Export the router
 module.exports = router;

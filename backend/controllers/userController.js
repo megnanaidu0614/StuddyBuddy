@@ -34,6 +34,7 @@ const registerUser = async (req, res) => {
       _id: savedUser._id,
       username: savedUser.username,
       email: savedUser.email,
+      token: generateToken(savedUser._id), // Generate token after successful registration
     });
   } catch (err) {
     console.error(err);
