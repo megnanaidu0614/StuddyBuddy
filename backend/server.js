@@ -8,12 +8,19 @@ const app = express();
 
 app.use(cors())
 app.use(express.json()); // To parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // To parse URL-encoded bodies
 
 const userRoutes = require('./routes/userRoutes');
 const classRoutes = require('./routes/classRoutes');
+const fileRoutes = require('./routes/filesRoutes');
+const feynmanRoutes = require('./routes/feynmanRoutes');
+const flashcardRoutes = require('./routes/flashcardRoutes');
 
 app.use('/api/users', userRoutes);
 app.use('/api/classes', classRoutes);
+app.use('/api/classes', fileRoutes);
+app.use('/api/feynman', feynmanRoutes);
+app.use('/api/classes', flashcardRoutes);
 
 // Define the port the server will run on
 const PORT = process.env.PORT || 5000;

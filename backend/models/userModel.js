@@ -3,19 +3,44 @@ const bcrypt = require('bcryptjs'); // A security library for hashing passwords
 
 const fileSchema = new mongoose.Schema({
   name: { type: String, required: true },
-  // ...other file fields
+  type: { type: String, default: 'file' },
+  content: { type: String, default: '' },
+  originalName: { type: String }, // Original filename from upload
+  filePath: { type: String }, // Path to stored file
+  fileSize: { type: Number }, // File size in bytes
+  mimeType: { type: String }, // MIME type of the file
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
 const flashcardSchema = new mongoose.Schema({
-  question: { type: String, required: true },
-  answer: { type: String, required: true },
-  // ...other flashcard fields
+  front: { type: String, required: true },
+  back: { type: String, required: true },
+  frontImage: { type: String }, // URL to stored image
+  backImage: { type: String }, // URL to stored image
+  frontMath: { type: String }, // LaTeX math equation
+  backMath: { type: String }, // LaTeX math equation
+  createdAt: { type: Date, default: Date.now }
+});
+
+const flashcardSetSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  description: { type: String },
+  cards: [flashcardSchema],
+  activeRecallData: [{
+    cardId: { type: mongoose.Schema.Types.ObjectId, ref: 'flashcard' },
+    knowledgeLevel: { type: Number, default: 0 }, // 0-5 scale
+    lastReviewed: { type: Date, default: Date.now },
+    reviewCount: { type: Number, default: 0 }
+  }],
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now }
 });
 
 const folderSchema = new mongoose.Schema({
   name: { type: String, required: true },
   files: [fileSchema],
-  flashcards: [flashcardSchema],
+  flashcardSets: [flashcardSetSchema],
   folders: [] // placeholder
 });
 folderSchema.add({ folders: [folderSchema] }); // recursion
@@ -23,7 +48,7 @@ folderSchema.add({ folders: [folderSchema] }); // recursion
 const classSchema = new mongoose.Schema({
   name: { type: String, required: true },
   files: [fileSchema],
-  flashcards: [flashcardSchema],
+  flashcardSets: [flashcardSetSchema],
   folders: [folderSchema]
 });
 

@@ -13,6 +13,8 @@ const {
   deleteFolder,       
 } = require('../controllers/classesController');
 
+
+
 router.use(protect);
 
 // Define the routes
@@ -25,6 +27,8 @@ router.get('/:classId/folders', getFolders);
 router.post('/:classId/folders', createFolder);
 router.put('/:classId/folders/:folderId', updateFolder);
 router.delete('/:classId/folders/:folderId', deleteFolder);
+
+
 
 // Export the router
 module.exports = router;
