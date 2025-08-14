@@ -191,7 +191,7 @@ studyBuddy/
 - `POST /api/feynman/analyze` - Analyze explanation
 
 
-## 🔒 Security Features
+## Security Features
 
 - JWT-based authentication
 - Protected API routes
